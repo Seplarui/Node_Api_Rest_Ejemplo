@@ -1,6 +1,8 @@
 var express = require("express"),
-    app = expres(),
-    bodyParser = require("body-parser"),
+    app = express(),
+    http = require("http"),
+    server = http.createServer(app),
+    bodyParser = require('body-parser'),
     methodOverride = require("method-override"),
     mongoose = require('mongoose');
 
@@ -8,15 +10,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(methodOverride());
 
-var router=express.Router();
+var router = express.Router();
 
 router.get('/', function (req, res) {
-    res.send("Hola Mundo");
+    res.send("Hello World!");
 });
-
 
 app.use(router);
 
-app.listen(3000, function () {
-    console.log("Node server running on http://192.168.1.240:3000");
+mongoose.connect('mongodb://localhost/tvshows', function (err, res) {
+    if (err) throw err;
+    console.log('Connected to Database');
+});
+
+
+    app.listen(3000, function () {
+        console.log("Node server running on http://localhost:3000");
+    
 });
